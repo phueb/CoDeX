@@ -45,6 +45,34 @@ c = np.block(
     ]
 ).astype(np.int)
 
+def plot_singular_values(ys: List[np.ndarray],
+                         max_s: int,
+                         fontsize: int = 12,
+                         figsize: Tuple[int] = (5, 5),
+                         markers: bool = False,
+                         label_all_x: bool = True,
+                         ):
+    fig, ax = plt.subplots(1, figsize=figsize, dpi=None)
+    plt.title('SVD of simulated co-occurrence matrix', fontsize=fontsize)
+    ax.set_ylabel('Singular value', fontsize=fontsize)
+    ax.set_xlabel('Singular Dimension', fontsize=fontsize)
+    ax.spines['right'].set_visible(False)
+    ax.spines['top'].set_visible(False)
+    ax.tick_params(axis='both', which='both', top=False, right=False)
+    x = np.arange(max_s) + 1  # num columns
+    ax.xaxis.grid(True)
+    if label_all_x:
+        ax.set_xticks(x)
+        ax.set_xticklabels(x)
+    # plot
+    for n, y in enumerate(ys):
+        ax.plot(x, y, label='simulation {}'.format(n + 1), linewidth=2)
+        if markers:
+            ax.scatter(x, y)
+    ax.legend(loc='upper right', frameon=False, fontsize=fontsize)
+    plt.tight_layout()
+    plt.show()
+
 
 def simulate_context_by_term_mat(mat):
     res = np.zeros_like(mat)
