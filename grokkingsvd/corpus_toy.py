@@ -8,13 +8,20 @@ class ToyCorpus:
     create a collection of documents,
      each consisting of a string where artificial nouns are followed by a non-noun (other).
     example document: "n1 o5 n34 o82 n93 o3 n45 o11".
-    the documents are sorted because:
+    the documents are sorted using either or both:
      1. the population from which nouns are sampled is gradually increased
      2. the population from which non-nouns are sampled is gradually increased
 
-     these two constraints result in an ordered collection of documents,
-     where the conditional entropy of nouns given the probability distribution over non-nouns decreases,
-     while the joint entropy of nouns and non-nouns increases.
+    constrain 1. result in an ordered collection of documents,
+    where the conditional entropy of nouns given the probability distribution over non-nouns,
+    and joint entropy of nouns and non-nouns both are maintained.
+    this happens because in the case where fewer noun types exist in a partition,
+    ONLY THOSE existing noun types are used to compute entropy measures,
+    and for those noun types, the next-word distribution never changes.
+
+    to systematically decrease the conditional entropy, while maintaining constant joint entropy,
+    constraint 2 must be used.
+
     """
 
     def __init__(self,
@@ -22,8 +29,8 @@ class ToyCorpus:
                  doc_size: int = 50_000,
                  num_types: int = 4096,
                  doc_offset: int = 0,  # the larger, the faster the noun population reaches its maximum
-                 increase_noun_types: bool = True,  # whether to gradually introduce new nouns
-                 increase_other_types: bool = False,  # whether to gradually introduce new others
+                 increase_noun_types: bool = False,  # whether to gradually introduce new nouns
+                 increase_other_types: bool = True,  # whether to gradually introduce new others
                  ) -> None:
         self.num_docs = num_docs
         self.doc_size = doc_size
