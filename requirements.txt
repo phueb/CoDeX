@@ -1,0 +1,5 @@
+matplotlib
+numpy
+pyitlib
+cached_property
+https://github.com/phueb/Preppy/archive/v2.0.0.tar.gz

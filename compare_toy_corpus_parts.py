@@ -7,53 +7,13 @@ from preppy import PartitionedPrep
 
 
 from grokkingsvd.corpus_toy import ToyCorpus
-from grokkingsvd.figs import plot_singular_values
-
-NUM_DOCS = 2
-NUM_NOUNS = 512
-MIN_NOUNS = 512  # this needs to be large to result in reduction in conditional entropy
-NUM_TYPES = 1024  # this needs to be large to result in reduction in conditional entropy
-DIVISOR = 1  # can be used in combination with FRAGMENTED_CONTROl
-FRAGMENTED_CONTROL = True
-
-def make_example_fig(mat,
-                     xlabel='nouns (slot 1)',
-                     ylabel='next words (slot 2)'):
-    fig, ax = plt.subplots(dpi=163)
-    plt.title('', fontsize=5)
-
-    # heatmap
-    print('Plotting heatmap...')
-    ax.imshow(mat,
-              cmap=plt.get_cmap('cividis'),
-              interpolation='nearest')
-
-    ax.set_xticks([])
-    ax.set_yticks([])
-    ax.xaxis.set_ticklabels([])
-    ax.yaxis.set_ticklabels([])
-
-    # remove tick lines
-    lines = (ax.xaxis.get_ticklines() +
-             ax.yaxis.get_ticklines())
-    plt.setp(lines, visible=False)
-
-    ax.set_xlabel(xlabel)
-    ax.set_ylabel(ylabel)
-
-    return fig, ax
+from grokkingsvd.figs import plot_singular_values, make_example_fig
 
 
-tc = ToyCorpus(num_docs=NUM_DOCS,
-               num_nouns=NUM_NOUNS,
-               num_types=NUM_TYPES,
-               divisor=DIVISOR,
-               min_nouns=MIN_NOUNS,
-               fragmented_control=FRAGMENTED_CONTROL,
-               )
+tc = ToyCorpus()
 prep = PartitionedPrep(tc.docs,
                        reverse=False,
-                       num_types=NUM_TYPES,
+                       num_types=tc.num_types,
                        num_parts=2,
                        num_iterations=(1, 1),
                        batch_size=64,
@@ -88,7 +48,7 @@ for part_id, part in enumerate(prep.reordered_parts):
     cf_mat = np.ones((prep.num_types, len(x2x))) * 1e-9
     for xi, yi in zip(x, y):
         cf_mat[yi, x2x[xi]] += 1
-    last_num_rows = NUM_TYPES - NUM_NOUNS  # other rows are just empty because of nouns not occurring with nouns
+    last_num_rows = tc.num_types - tc.num_nouns  # other rows are just empty because of nouns not occurring with nouns
     fig, ax = make_example_fig(np.log(cf_mat[-last_num_rows:]))
     ce = drv.entropy_conditional(x, y).item()
     je = drv.entropy_joint(x_y).item()
