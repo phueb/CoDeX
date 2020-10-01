@@ -5,9 +5,9 @@ import matplotlib.pyplot as plt
 
 from preppy import PartitionedPrep
 
-from ordermatters.figs import make_example_fig
-from ordermatters.corpus_toy import ToyCorpus
-from ordermatters.figs import plot_singular_values
+
+from grokkingsvd.corpus_toy import ToyCorpus
+from grokkingsvd.figs import plot_singular_values
 
 NUM_DOCS = 2
 NUM_NOUNS = 512
@@ -15,6 +15,34 @@ MIN_NOUNS = 512  # this needs to be large to result in reduction in conditional 
 NUM_TYPES = 1024  # this needs to be large to result in reduction in conditional entropy
 DIVISOR = 1  # can be used in combination with FRAGMENTED_CONTROl
 FRAGMENTED_CONTROL = True
+
+def make_example_fig(mat,
+                     xlabel='nouns (slot 1)',
+                     ylabel='next words (slot 2)'):
+    fig, ax = plt.subplots(dpi=163)
+    plt.title('', fontsize=5)
+
+    # heatmap
+    print('Plotting heatmap...')
+    ax.imshow(mat,
+              cmap=plt.get_cmap('cividis'),
+              interpolation='nearest')
+
+    ax.set_xticks([])
+    ax.set_yticks([])
+    ax.xaxis.set_ticklabels([])
+    ax.yaxis.set_ticklabels([])
+
+    # remove tick lines
+    lines = (ax.xaxis.get_ticklines() +
+             ax.yaxis.get_ticklines())
+    plt.setp(lines, visible=False)
+
+    ax.set_xlabel(xlabel)
+    ax.set_ylabel(ylabel)
+
+    return fig, ax
+
 
 tc = ToyCorpus(num_docs=NUM_DOCS,
                num_nouns=NUM_NOUNS,
