@@ -77,19 +77,27 @@ st.sidebar.write("""
 df1, df2, df3 = load_data_frame(collection_id)
 
 # make line chart 1
+chart1_y_label = 'Proportion of Joint Entropy'
+df1.rename(columns={'Proportion': chart1_y_label}, inplace=True)
+print(df1)
 lines = alt.Chart(df1).mark_line().encode(x='Step',
-                                          y='Proportion',
+                                          y=chart1_y_label,
                                           color='Quantity',
-                                          tooltip=['Step', 'Proportion', 'Quantity'])
-rule = alt.Chart(pd.DataFrame([{"cs": current_step}])).mark_rule(color='black').encode(x='cs:Q')
+                                          tooltip=['Step', chart1_y_label, 'Quantity'])
+rule = alt.Chart(pd.DataFrame([{'current_step': current_step}])).mark_rule(color='black').encode(
+    x=alt.X('current_step', title='Step'))
 line_chart1 = lines + rule
 
 # make line chart 2
+chart2_y_label = 'Proportion of Variance'
+df2.rename(columns={'Proportion': chart2_y_label}, inplace=True)
 lines = alt.Chart(df2).mark_line().encode(x='Step',
-                                          y='Proportion',
+                                          y=chart2_y_label,
                                           color='Quantity',
-                                          tooltip=['Step', 'Proportion', 'Quantity'])
-rule = alt.Chart(pd.DataFrame([{"cs": current_step}])).mark_rule(color='black').encode(x='cs:Q')
+                                          tooltip=['Step', chart2_y_label, 'Quantity'])
+rule = alt.Chart(pd.DataFrame([{'current_step': current_step}])).mark_rule(color='black').encode(
+    x=alt.X('current_step', title='Step')
+)
 line_chart2 = lines + rule
 
 # make heat chart

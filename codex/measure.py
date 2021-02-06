@@ -31,5 +31,5 @@ def measure_vars2(mat: np.array,
     s1_norm = s[0] / np.sum(s)
 
     props = [s1_norm]
-    names = ['s1/s']
+    names = ['s1']
     return props, names
