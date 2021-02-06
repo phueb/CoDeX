@@ -3,6 +3,7 @@ import streamlit as st
 import numpy as np
 import pandas as pd
 import altair as alt
+from PIL import Image
 
 from grokkingsvd import configs
 from grokkingsvd.utils import to_columnar
@@ -11,6 +12,7 @@ from grokkingsvd.transform import move_diag_to_col
 
 
 STEPS = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+MATRIX_SIZE_PX = 300
 
 
 @st.cache
@@ -63,9 +65,21 @@ def load_data_frame() -> Tuple[pd.DataFrame, pd.DataFrame, pd.DataFrame]:
     return df1, df2, df3
 
 
-# title + slider + data
-st.title(configs.Dirs.root.name)
-current_step = st.slider('Transformation step', 0, 10, 0)
+# sidebar
+st.sidebar.title('Understanding Matrix Decomposition')
+st.sidebar.write("""
+         Use the slider to inspect quantities computed on a toy co-occurrence matrix.
+     """)
+current_step = st.sidebar.slider('Transformation step', 0, 10, 0)
+
+st.sidebar.write("""
+         This visualization is part of a research effort into the distributional structure of nouns in child-directed speech. 
+         More info can be found at http://languagelearninglab.org/
+     """)
+image = Image.open(configs.Dirs.images / 'lab_logo.png')
+st.sidebar.image(image)
+
+# load data
 df1, df2, df3 = load_data_frame()
 
 # make line chart 1
@@ -89,9 +103,18 @@ heat_chart = alt.Chart(df3[df3['s'] == current_step]).mark_rect().encode(
     x='x:O',
     y='y:O',
     color='z:Q'
+).properties(
+    width=MATRIX_SIZE_PX,
+    height=MATRIX_SIZE_PX
 )
 
 # show charts
-st.altair_chart(line_chart1)
-st.altair_chart(line_chart2)
+st.header('Co-occurrence Data')
 st.altair_chart(heat_chart)
+col1, col2 = st.beta_columns(2)
+with col1:
+    st.header('Information Decomposition')
+    st.altair_chart(line_chart1, use_container_width=True)
+with col2:
+    st.header('Singular Value Decomposition')
+    st.altair_chart(line_chart2, use_container_width=True)
