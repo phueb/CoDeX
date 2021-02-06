@@ -1,5 +1,5 @@
-matplotlib
-numpy
-pyitlib
-cached_property
-https://github.com/phueb/Preppy/archive/v2.0.0.tar.gz
+streamlit~=0.76.0
+numpy~=1.20.0
+pandas~=1.2.1
+pyitlib~=0.2.2
+altair~=4.1.0
