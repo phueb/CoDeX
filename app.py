@@ -5,6 +5,7 @@ import pandas as pd
 import altair as alt
 
 from grokkingsvd import configs
+from grokkingsvd.utils import to_columnar
 from grokkingsvd.measure import measure_vars1, measure_vars2
 from grokkingsvd.transform import move_diag_to_col
 
@@ -33,6 +34,7 @@ def load_data_frame() -> Tuple[pd.DataFrame, pd.DataFrame, pd.DataFrame]:
     steps2 = []
     props2 = []
     names2 = []
+    transformations = []
     for step in STEPS:
         # transform matrix
         co_mat_transformed = move_diag_to_col(co_mat_original, step)
@@ -51,9 +53,12 @@ def load_data_frame() -> Tuple[pd.DataFrame, pd.DataFrame, pd.DataFrame]:
         props2 += props2i
         names2 += names2i
 
+        # collect transformed matrix for heat chart
+        transformations.append(co_mat_transformed)
+
     df1 = pd.DataFrame(data={'Step': steps1, 'Proportion': props1, 'Quantity': names1})
     df2 = pd.DataFrame(data={'Step': steps2, 'Proportion': props2, 'Quantity': names2})
-    df3 = pd.DataFrame()
+    df3 = pd.DataFrame(data=to_columnar(transformations))
 
     return df1, df2, df3
 
@@ -80,14 +85,13 @@ rule = alt.Chart(pd.DataFrame([{"cs": current_step}])).mark_rule(color='black').
 line_chart2 = lines + rule
 
 # make heat chart
-# alt.Chart(source).mark_rect().encode(
-#     x='x:O',
-#     y='y:O',
-#     color='z:Q'
-# )
-
+heat_chart = alt.Chart(df3[df3['s'] == current_step]).mark_rect().encode(
+    x='x:O',
+    y='y:O',
+    color='z:Q'
+)
 
 # show charts
 st.altair_chart(line_chart1)
 st.altair_chart(line_chart2)
-# st.altair_chart(heat_chart)
+st.altair_chart(heat_chart)
