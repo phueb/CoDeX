@@ -2,7 +2,7 @@ import numpy as np
 from typing import Tuple, List
 import pyitlib.discrete_random_variable as drv
 
-from grokkingsvd.utils import to_x_y
+from codex.utils import to_x_y
 
 
 def measure_vars1(mat: np.array,
