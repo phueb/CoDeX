@@ -55,36 +55,6 @@ def load_collection(collection_id: int,
             [__, _2, __, __, __, __, _3, __, __],
             [__, __, _2, __, __, __, _3, __, __],
             [__, __, __, _2, __, __, _3, __, __],
-            [__, __, __, __, _2, __, _3, __, __],
-            [__, __, __, __, __, _2, _3, __, __],
-        ])
-
-        def transform(co_mat: np.array,
-                      step: int,
-                      ) -> np.array:
-            res = co_mat.copy()
-
-            res[5, 5] -= step
-            res[4, 4] -= step
-
-            res[4, 0] += step
-            res[5, 0] += step
-
-            assert res.sum() == co_mat.sum()
-            return res
-
-        return co_mat_original, transform
-
-    if collection_id == 2:
-        __ = 0
-        _1 = 10
-        _2 = 10
-        _3 = 10
-        co_mat_original = np.array([
-            [_2, __, __, __, __, __, __, __, __],
-            [__, _2, __, __, __, __, __, __, __],
-            [__, __, _2, __, __, __, __, __, __],
-            [__, __, __, _2, __, __, __, __, __],
             [__, __, __, __, _2, __, __, __, __],
             [__, __, __, __, __, _2, __, __, __],
         ])
@@ -97,8 +67,38 @@ def load_collection(collection_id: int,
             res[5, 5] -= step
             res[4, 4] -= step
 
-            res[4, 0] += step
-            res[5, 0] += step
+            res[4, 7] += step
+            res[5, 7] += step
+
+            assert res.sum() == co_mat.sum()
+            return res
+
+        return co_mat_original, transform
+
+    if collection_id == 2:
+        __ = 0
+        _1 = 10
+        _2 = 10
+        _3 = 20
+        co_mat_original = np.array([
+            [_2, __, __, __, __, __, _3, __, __],
+            [__, _2, __, __, __, __, _3, __, __],
+            [__, __, _2, __, __, __, _3, __, __],
+            [__, __, __, _2, __, __, _3, __, __],
+            [__, __, __, __, _2, __, _1, __, __],
+            [__, __, __, __, __, _2, _1, __, __],
+        ])
+
+        def transform(co_mat: np.array,
+                      step: int,
+                      ) -> np.array:
+            res = co_mat.copy()
+
+            res[5, 5] -= step
+            res[4, 4] -= step
+
+            res[4, 6] += step
+            res[5, 6] += step
 
             assert res.sum() == co_mat.sum()
             return res
