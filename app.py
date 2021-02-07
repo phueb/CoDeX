@@ -9,7 +9,7 @@ from codex.collection import load_collection, get_width_height_pixels
 
 STEPS = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
 DEFAULT_COLLECTION_ID = 0
-NUM_COLLECTIONS = 2
+NUM_COLLECTIONS = 5
 
 
 @st.cache
@@ -56,16 +56,12 @@ def load_data_frame(collection_id: int,
 
 # sidebar
 st.sidebar.title('Understanding Matrix Decomposition')
-st.sidebar.write("""
-         Select toy co-occurrence matrix for transformation.
-     """)
+st.sidebar.write('Select toy co-occurrence matrix for transformation.')
 collection_id = st.sidebar.selectbox("Which matrix?",
-                                     list(range(NUM_COLLECTIONS + 1)),
+                                     list(range(NUM_COLLECTIONS)),
                                      DEFAULT_COLLECTION_ID)
 print(collection_id)
-st.sidebar.write("""
-         Use the slider to transform the matrix.
-     """)
+st.sidebar.write('Use the slider to transform the matrix.')
 current_step = st.sidebar.slider('Transformation step', 0, 10, 0)
 
 st.sidebar.write("""
