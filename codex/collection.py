@@ -2,20 +2,20 @@ import numpy as np
 from typing import Tuple, Callable
 
 
-def get_width_height_pixels(collection_id: int,
+def get_width_height_pixels(scenario_id: int,
                             ) -> Tuple[int, int]:
-    if collection_id == 0:
+    if scenario_id == 0:
         return 400, 300
-    elif collection_id == 5 or collection_id == 6:
+    elif scenario_id == 5 or scenario_id == 6:
         return 700, 300
     else:
         return 400, 300
 
 
-def load_collection(collection_id: int,
+def load_collection(scenario_id: int,
                     ) -> Tuple[np.array, Callable[[np.array, int], np.array]]:
 
-    if collection_id == 0:
+    if scenario_id == 0:
         __ = 0
         _1 = 10
         _2 = 10
@@ -45,7 +45,7 @@ def load_collection(collection_id: int,
 
         return co_mat_original, transform
 
-    if collection_id == 1:
+    if scenario_id == 1:
         __ = 0
         _1 = 10
         _2 = 10
@@ -75,7 +75,7 @@ def load_collection(collection_id: int,
 
         return co_mat_original, transform
 
-    if collection_id == 2:
+    if scenario_id == 2:
         __ = 0
         _1 = 10
         _2 = 10
@@ -105,7 +105,7 @@ def load_collection(collection_id: int,
 
         return co_mat_original, transform
 
-    elif collection_id == 3:
+    elif scenario_id == 3:
         __ = 0
         _1 = 10
         _2 = 10
@@ -138,7 +138,7 @@ def load_collection(collection_id: int,
 
         return co_mat_original, transform
 
-    elif collection_id == 4:
+    elif scenario_id == 4:
         __ = 0
         _1 = 10
         _2 = 10
@@ -171,7 +171,7 @@ def load_collection(collection_id: int,
 
         return co_mat_original, transform
 
-    elif collection_id == 5:
+    elif scenario_id == 5:
         __ = 0
         _1 = 10
         _2 = 10
@@ -206,7 +206,7 @@ def load_collection(collection_id: int,
 
         return co_mat_original, transform
 
-    elif collection_id == 6:
+    elif scenario_id == 6:
         __ = 0
         _1 = 10
         _2 = 10
@@ -243,4 +243,4 @@ def load_collection(collection_id: int,
         return co_mat_original, transform
 
     else:
-        raise ValueError(f'Did not find collection for id={collection_id}')
+        raise ValueError(f'Did not find scenario={scenario_id}')
