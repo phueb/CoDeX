@@ -6,8 +6,8 @@ def get_width_height_pixels(collection_id: int,
                             ) -> Tuple[int, int]:
     if collection_id == 0:
         return 400, 300
-    elif collection_id == 1:
-        return 400, 300
+    elif collection_id == 5 or collection_id == 6:
+        return 700, 300
     else:
         return 400, 300
 
@@ -165,6 +165,77 @@ def load_collection(collection_id: int,
             res[5, 5] -= step
 
             res[:, 6] += step
+
+            assert res.sum() == co_mat.sum()
+            return res
+
+        return co_mat_original, transform
+
+    elif collection_id == 5:
+        __ = 0
+        _1 = 10
+        _2 = 10
+        _3 = 10
+        co_mat_original = np.array([
+            [_1, __, __, __, __, __, _3, __, __, __, __, __, __, __, __, __, __],
+            [__, _1, __, __, __, __, _3, __, __, __, __, __, __, __, __, __, __],
+            [__, __, _1, __, __, __, _3, __, __, __, __, __, __, __, __, __, __],
+            [__, __, __, _1, __, __, _3, __, __, __, __, __, __, __, __, __, __],
+            [__, __, __, __, _1, __, _3, __, __, __, __, __, __, __, __, __, __],
+            [__, __, __, __, __, _1, _3, __, __, __, __, __, __, __, __, __, __],
+        ])
+
+        def transform(co_mat: np.array,
+                      step: int,
+                      ) -> np.array:
+            res = co_mat.copy()
+
+            res[0, 0] -= step
+            res[1, 1] -= step
+            res[2, 2] -= step
+            res[3, 3] -= step
+            res[4, 4] -= step
+            res[5, 5] -= step
+
+            for _ in range(step):
+                for i, j in enumerate(np.random.randint(7, 17, size=6)):
+                    res[i, j] += 1
+
+            assert res.sum() == co_mat.sum()
+            return res
+
+        return co_mat_original, transform
+
+    elif collection_id == 6:
+        __ = 0
+        _1 = 10
+        _2 = 10
+        _3 = 10
+        co_mat_original = np.array([
+            [_1, __, __, __, __, __, _3, __, __, __, __, __, __, __, __, __, __],
+            [__, _1, __, __, __, __, _3, __, __, __, __, __, __, __, __, __, __],
+            [__, __, _1, __, __, __, _3, __, __, __, __, __, __, __, __, __, __],
+            [__, __, __, _1, __, __, _3, __, __, __, __, __, __, __, __, __, __],
+            [__, __, __, __, _1, __, _3, __, __, __, __, __, __, __, __, __, __],
+            [__, __, __, __, __, _1, _3, __, __, __, __, __, __, __, __, __, __],
+        ])
+
+        def transform(co_mat: np.array,
+                      step: int,
+                      ) -> np.array:
+            res = co_mat.copy()
+
+            res[0, 0] -= step
+            res[1, 1] -= step
+            res[2, 2] -= step
+            res[3, 3] -= step
+            res[4, 4] -= step
+            res[5, 5] -= step
+
+            for n in range(step):
+                print(17 - (step - 10))
+                for i, j in enumerate(np.random.randint(7, 7 + step, size=6)):
+                    res[i, j] += 1
 
             assert res.sum() == co_mat.sum()
             return res

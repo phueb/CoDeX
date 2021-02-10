@@ -8,8 +8,8 @@ from codex.measure import measure_vars1, measure_vars2
 from codex.collection import load_collection, get_width_height_pixels
 
 STEPS = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
-DEFAULT_COLLECTION_ID = 0
-NUM_COLLECTIONS = 5
+DEFAULT_COLLECTION_ID = 6
+NUM_COLLECTIONS = 7
 
 
 @st.cache
@@ -60,7 +60,6 @@ st.sidebar.write('Select toy co-occurrence matrix for transformation.')
 collection_id = st.sidebar.selectbox("Which matrix?",
                                      list(range(NUM_COLLECTIONS)),
                                      DEFAULT_COLLECTION_ID)
-print(collection_id)
 st.sidebar.write('Use the slider to transform the matrix.')
 current_step = st.sidebar.slider('Transformation step', 0, 10, 0)
 
@@ -75,7 +74,6 @@ df1, df2, df3 = load_data_frame(collection_id)
 # make line chart 1
 chart1_y_label = 'Proportion of Joint Entropy'
 df1.rename(columns={'Proportion': chart1_y_label}, inplace=True)
-print(df1)
 lines = alt.Chart(df1).mark_line().encode(x='Step',
                                           y=chart1_y_label,
                                           color='Quantity',
