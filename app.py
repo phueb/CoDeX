@@ -8,8 +8,8 @@ from codex.measure import measure_vars1, measure_vars2
 from codex.collection import load_collection, get_width_height_pixels
 
 STEPS = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
-DEFAULT_SCENARIO_ID = 6
-NUM_SCENARIOS = 7
+DEFAULT_SCENARIO_ID = 7
+NUM_SCENARIOS = DEFAULT_SCENARIO_ID + 1
 
 
 @st.cache
