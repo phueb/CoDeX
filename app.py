@@ -99,8 +99,8 @@ line_chart2 = lines + rule
 
 # make heat chart
 heat_chart = alt.Chart(df3[df3['s'] == current_step]).mark_rect().encode(
-    x='x:O',
-    y='y:O',
+    alt.X('x:O', axis=None),
+    alt.Y('y:O', axis=None),
     color='z:Q'
 ).properties(
     width=get_width_height_pixels(scenario_id)[0],
